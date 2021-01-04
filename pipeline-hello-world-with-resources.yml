@@ -11,8 +11,8 @@ resources:
 - name: resource1
   type: git
   source:
-    uri: https://github.com/nigeldecosta/concourse-examples.git
-    branch: master
+    uri: https://github.com/chayathorn-lorkanchanakul-rft/concourse-examples.git
+    branch: develop
  
 jobs:
 - name: job-hello-world-resources
@@ -20,14 +20,3 @@ jobs:
   - get: resource1
   - task: task-hello-world
     file: resource1/task-hello-world/task_hello_world.yml
- 
-# The file task_hello_world.yml is as below...
-platform: linux
- 
-image_resource:
-  type: docker-image
-  source: {repository: busybox}
- 
-run:
-  path: echo
-  args: ["Hello, world!"]
