@@ -1,0 +1,33 @@
+#
+# Create the pipeline file pipeline-hello-world-with-resources.yml
+#
+# This pipeline contains a resource section that references a github project that contains a task yml file 
+# named task_hello_world.yml. Ensure the referenced github project exists with this file in the tasks folder.
+#
+# Note that for this example the github project has public access (later examples show how to asscociate
+# access credentials from a secrets store.)
+#
+resources:
+- name: resource1
+  type: git
+  source:
+    uri: https://github.com/nigeldecosta/concourse-examples.git
+    branch: master
+ 
+jobs:
+- name: job-hello-world-resources
+  plan:
+  - get: resource1
+  - task: task-hello-world
+    file: resource1/task-hello-world/task_hello_world.yml
+ 
+# The file task_hello_world.yml is as below...
+platform: linux
+ 
+image_resource:
+  type: docker-image
+  source: {repository: busybox}
+ 
+run:
+  path: echo
+  args: ["Hello, world!"]
